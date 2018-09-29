@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Products{% endblock %}</h1>
+  <a class="action" href="{{ url_for('/add') }}">Add Product</a>
+{% endblock %}
+
+{% block content %}
+<table style="width:100%">
+    <tr>
+        <th>ID</th>
+        <th>Name</th> 
+        <th>Quantity</th>
+        <th>Price</th>
+    </tr>
+    {% for product in products %}
+        <tr>
+        <td>product[id]</td>
+        <td>product[productName]</td> 
+        <td>product[quantity]</td>
+        <td>product[price]</td>
+        </tr>
+    {% endfor %}
+  </table>
+
+{% endblock %}
