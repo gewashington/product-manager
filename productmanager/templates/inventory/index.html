@@ -2,7 +2,7 @@
 
 {% block header %}
   <h1>{% block title %}Products{% endblock %}</h1>
-  <a class="action" href="{{ url_for('/add') }}">Add Product</a>
+  <a class="action" href="{{ url_for('inventory.add') }}">Add Product</a>
 {% endblock %}
 
 {% block content %}
@@ -15,10 +15,10 @@
     </tr>
     {% for product in products %}
         <tr>
-        <td>product[id]</td>
-        <td>product[productName]</td> 
-        <td>product[quantity]</td>
-        <td>product[price]</td>
+        <td>{{product.id}}</td>
+        <td>{{product.productName}}</td>
+        <td>{{product.quantity}}</td>
+        <td>{{product.price}}</td>
         </tr>
     {% endfor %}
   </table>

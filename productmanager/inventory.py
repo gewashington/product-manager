@@ -4,17 +4,19 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from productmanager.db import get_db
+from productmanager.data import Products
 
 bp = Blueprint('inventory', __name__)
+Products = Products()
 
 @bp.route('/')
 def index():
-    db = get_db()
-    products = db.execute(
-        ' SELECT id, productName, price, quantity'
-        ' ORDER BY id DESC'
-    ).fetchall()
-    return render_template('/index.html', products=products)
+    # db = get_db()
+    # products = db.execute(
+    #     ' SELECT p.id, productName, price, quantity, added'
+    #     ' ORDER BY added DESC'
+    # ).fetchall()
+    return render_template('inventory/index.html', products = Products)
 
 @bp.route('/add', methods=('GET', 'POST'))
 def add():
@@ -41,8 +43,9 @@ def add():
                 'VALUES (?, ?, ?)'
             )
             db.commit()
-            return redirect(url_for('/'))
-    return render_template('/add.html')
+            return redirect(url_for('inventory.index'))
+
+    return render_template('inventory/add.html')
 
 
 
