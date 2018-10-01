@@ -11,12 +11,14 @@ Products = Products()
 
 @bp.route('/')
 def index():
-    # db = get_db()
-    # products = db.execute(
-    #     ' SELECT p.id, productName, price, quantity, added'
-    #     ' ORDER BY added DESC'
-    # ).fetchall()
-    return render_template('inventory/index.html', products = Products)
+    db = get_db()
+    products = db.execute(
+        ' SELECT id, productName, price, quantity, added'
+        ' FROM product'
+        ' ORDER BY added DESC'
+    ).fetchall()
+    print(products)
+    return render_template('inventory/index.html', products = products)
 
 @bp.route('/add', methods=('GET', 'POST'))
 def add():
@@ -24,6 +26,7 @@ def add():
         productName = request.form['productName']
         quantity = request.form['quantity']
         price = request.form['price']
+        error = None
 
         if not productName:
             error = 'Product name is required.'
@@ -40,7 +43,7 @@ def add():
             db=get_db()
             db.execute(
                 'INSERT INTO product (productName, quantity, price)'
-                'VALUES (?, ?, ?)'
+                'VALUES (?, ?, ?)', (productName, quantity, price)
             )
             db.commit()
             return redirect(url_for('inventory.index'))
