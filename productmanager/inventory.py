@@ -9,7 +9,7 @@ from productmanager.data import Products
 bp = Blueprint('inventory', __name__)
 Products = Products()
 
-def get_product():
+def get_product(id):
     product = get_db().execute(
         ' SELECT id, productName, price, quantity, added '
         ' FROM product '
@@ -74,34 +74,35 @@ def update(id):
         price = request.form['price']
         error = None
 
-    if not productName:
-        error = 'Product name is required.'
-    
-    if not quantity:
-        error = 'Amount of products required.'
-    
-    if not price:
-        error = 'Price is required.'
-    
-    if error is not None:
-        flash(error)
+        if not productName:
+            error = 'Product name is required.'
+        
+        if not quantity:
+            error = 'Amount of products required.'
+        
+        if not price:
+            error = 'Price is required.'
+        
+        if error is not None:
+            flash(error)
 
-    else:
-        db=get_db()
-        db.execute(
-            ' UPDATE product SET productName = ? quantity = ? price = ? '
-            ' WHERE id = ? '
-            (productName, quantity, price)
-        )
-        db.commit()
-        return redirect(url_for('inventory.index'))
+        else:
+            db=get_db()
+            db.execute(
+                ' UPDATE product SET productName = ? quantity = ? price = ? '
+                ' WHERE id = ? '
+                (productName, quantity, price, id)
+            )
+            db.commit()
+            return redirect(url_for('inventory.index'))
     return render_template('inventory/update.html', product=product)
 
 @bp.route('/<int:id>/delete', methods=('GET', 'POST'))
 def delete(id):
     get_product(id)
+    print('PRODUCT', get_product(id))
     db = get_db()
-    db.execute( 'DELETE FROM product WHERE id = ?', (id,))
+    db.execute( ' DELETE FROM product WHERE id = ? ', (id,))
     db.commit()
     return redirect(url_for('inventory.index'))
 

@@ -2,7 +2,7 @@
 
 {% block header %}
   <h1>{% block title %}Products{% endblock %}</h1>
-  <a class="action" href="{{ url_for('inventory.add', id=product.id) }}">Add Product</a>
+  <a class="action" href="{{ url_for('inventory.add') }}">Add Product</a>
 {% endblock %}
 
 {% block content %}
@@ -23,7 +23,7 @@
                 <td>{{product.productName}}</td>
                 <td>{{product.quantity}}</td>
                 <td>{{product.price}}</td>
-                <td><a class="action" href="{{ url_for('inventory.update') }}">Click</a>
+                <td><a class="action" href="{{ url_for('inventory.update', id=product.id) }}">Click</a>
             </tr>
         {% endfor %}
     </tbody>
