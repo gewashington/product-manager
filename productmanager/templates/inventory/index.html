@@ -2,25 +2,31 @@
 
 {% block header %}
   <h1>{% block title %}Products{% endblock %}</h1>
-  <a class="action" href="{{ url_for('inventory.add') }}">Add Product</a>
+  <a class="action" href="{{ url_for('inventory.add', id=product.id) }}">Add Product</a>
 {% endblock %}
 
 {% block content %}
-<table style="width:100%">
-    <tr>
-        <th>ID</th>
-        <th>Name</th> 
-        <th>Quantity</th>
-        <th>Price</th>
-    </tr>
-    {% for product in products %}
+<table class= "table table-hover">
+    <thead>
         <tr>
-        <td>{{product.id}}</td>
-        <td>{{product.productName}}</td>
-        <td>{{product.quantity}}</td>
-        <td>{{product.price}}</td>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th> 
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Update Product</th>
         </tr>
-    {% endfor %}
+    </thead>
+    <tbody>
+        {% for product in products %}
+            <tr>
+            <th scope="row">{{product.id}}</th>
+                <td>{{product.productName}}</td>
+                <td>{{product.quantity}}</td>
+                <td>{{product.price}}</td>
+                <td><a class="action" href="{{ url_for('inventory.update') }}">Click</a>
+            </tr>
+        {% endfor %}
+    </tbody>
   </table>
 
 {% endblock %}
