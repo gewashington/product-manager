@@ -22,6 +22,16 @@ def get_product(id):
     
     return product
 
+# def fetch_error(name, price, amount):
+#     if not name:
+#         return 'Product name is required.'
+
+#     if not amount:
+#         return'Amount of products required.'
+
+#     if not price:
+#         return 'Price is required.'
+
 @bp.route('/')
 def index():
     db = get_db()
@@ -67,7 +77,6 @@ def add():
 @bp.route('/<int:id>/update', methods=('GET','POST'))
 def update(id):
     product = get_product(id)
-
     if request.method == 'POST':
         productName = request.form['productName']
         quantity = request.form['quantity']
@@ -89,20 +98,19 @@ def update(id):
         else:
             db=get_db()
             db.execute(
-                ' UPDATE product SET productName = ? quantity = ? price = ? '
-                ' WHERE id = ? '
+                'UPDATE product SET productName = ?, quantity = ?, price = ?'
+                'WHERE id = ?',
                 (productName, quantity, price, id)
             )
             db.commit()
             return redirect(url_for('inventory.index'))
     return render_template('inventory/update.html', product=product)
 
-@bp.route('/<int:id>/delete', methods=('GET', 'POST'))
+@bp.route('/<int:id>/delete', methods=('GET', 'POST',))
 def delete(id):
     get_product(id)
-    print('PRODUCT', get_product(id))
     db = get_db()
-    db.execute( ' DELETE FROM product WHERE id = ? ', (id,))
+    db.execute('DELETE FROM product WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('inventory.index'))
 

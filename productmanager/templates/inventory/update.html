@@ -13,6 +13,5 @@
     <label for="price">Price</label>
     <input name="price" id="price" value="{{ request.form['price'] or product[price] }}" required>
     <input type="submit" value="Save" >
-    <input type="submit" value="Delete" class="danger" onclick="return confirm('Are you sure you want to delete this product?');">
   </form>
 {% endblock %}

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<table class= "table table-hover">
+<table class= "table table-hover" style="width: 80%;">
     <thead>
         <tr>
             <th scope="col">ID</th>
@@ -14,6 +14,7 @@
             <th scope="col">Quantity</th>
             <th scope="col">Price</th>
             <th scope="col">Update Product</th>
+            <th scope="col">Delete Product</th>
         </tr>
     </thead>
     <tbody>
@@ -24,6 +25,7 @@
                 <td>{{product.quantity}}</td>
                 <td>{{product.price}}</td>
                 <td><a class="action" href="{{ url_for('inventory.update', id=product.id) }}">Click</a>
+                <td><a class="action" href="{{ url_for('inventory.delete', id=product.id) }}">Click</a>
             </tr>
         {% endfor %}
     </tbody>
