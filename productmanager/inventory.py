@@ -48,7 +48,7 @@ def get_value():
 def index():
     db = get_db()
     products = db.execute(
-        ' SELECT id, productName, price, quantity, added'
+        ' SELECT id, productName, printf("%.2f", price) AS price, quantity, added'
         ' FROM product'
         ' ORDER BY added ASC'
     ).fetchall()
@@ -60,29 +60,33 @@ def index():
 @bp.route('/add', methods=('GET', 'POST'))
 def add():
     if request.method == 'POST':
-        productName = request.form['productName']
-        quantity = request.form['quantity']
-        price = request.form['price']
-        error = None
+        if request.form['button'] == 'Save':
+            productName = request.form['productName']
+            quantity = request.form['quantity']
+            price = request.form['price']
+            error = None
 
-        if not productName:
-            error = 'Product name is required.'
-        
-        if not quantity:
-            error = 'Amount of products required.'
-        
-        if not price:
-            error = 'Price is required.'
-        
-        if error is not None:
-            flash(error)
-        else:
-            db=get_db()
-            db.execute(
-                'INSERT INTO product (productName, quantity, price)'
-                'VALUES (?, ?, ?)', (productName, quantity, price)
-            )
-            db.commit()
+            if not productName:
+                error = 'Product name is required.'
+
+            if not quantity:
+                error = 'Amount of products required.'
+
+            if not price:
+                error = 'Price is required.'
+
+            if error is not None:
+                flash(error)
+            else:
+                db=get_db()
+                db.execute(
+                    'INSERT INTO product (productName, quantity, price)'
+                    'VALUES (?, ?, ?)', (productName, quantity, price)
+                )
+                db.commit()
+                return redirect(url_for('inventory.index'))
+
+        elif request.form['button'] == 'Back':
             return redirect(url_for('inventory.index'))
 
     return render_template('inventory/add.html')
