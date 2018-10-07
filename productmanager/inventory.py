@@ -28,16 +28,16 @@ def get_value():
     inventory_value = 0
     db = get_db()
     prices = db.execute(
-        ' SELECT printf("%.2f", price) AS price '
+        ' SELECT printf("%.2f", price) AS price, quantity '
         ' FROM product '
     ).fetchall()
 
     if inventory_value is None:
-        flash('Error retrieving inventory value.')
+        inventory_value = 'Error retrieving inventory value.'
 
     else:
         for item in prices:
-            inventory_value = inventory_value + Decimal(item[0])
+            inventory_value = inventory_value + (Decimal(item[0]) * int(item[1]))
 
     return inventory_value
 
