@@ -1,17 +1,6 @@
 {% extends 'base.html' %}
-
-{% block header %}
-  <h1>{% block title %}Edit Product{% endblock %}</h1>
-{% endblock %}
+{% from 'productform.html' import productform %}
 
 {% block content %}
-  <form method="post">
-    <label for="productName">Product Name</label>
-    <input name="productName" id="productName" value="{{ request.form['productName'] or product[productName] }}" required>
-    <label for="quantity">Quantity</label>
-    <input name="quantity" id="quantity" value="{{ request.form['quantity'] or product[quantity] }}" required>
-    <label for="price">Price</label>
-    <input name="price" id="price" value="{{ request.form['price'] or product[price] }}" required>
-    <input type="submit" value="Save" >
-  </form>
+  {{ productform('Edit Product', product) }}
 {% endblock %}

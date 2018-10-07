@@ -31,6 +31,18 @@ def get_product(id):
 
 #     if not price:
 #         return 'Price is required.'
+def get_value():
+    db = get_db()
+    inventory_value = db.execute(
+        ' SELECT price '
+        ' FROM product '
+    ).fetchall()
+
+    if inventory_value is None:
+        flash('Error retrieving inventory value.')
+    
+    return inventory_value
+
 
 @bp.route('/')
 def index():
@@ -40,7 +52,8 @@ def index():
         ' FROM product'
         ' ORDER BY added ASC'
     ).fetchall()
-    print(products)
+    inventory_val = get_value()
+    print(inventory_val)
     return render_template('inventory/index.html', products = products)
 
 
