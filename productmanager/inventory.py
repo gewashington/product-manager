@@ -2,6 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
+from decimal import Decimal
 
 from productmanager.db import get_db
 from productmanager.data import Products
@@ -22,25 +23,22 @@ def get_product(id):
     
     return product
 
-# def fetch_error(name, price, amount):
-#     if not name:
-#         return 'Product name is required.'
 
-#     if not amount:
-#         return'Amount of products required.'
-
-#     if not price:
-#         return 'Price is required.'
 def get_value():
+    inventory_value = 0
     db = get_db()
-    inventory_value = db.execute(
-        ' SELECT price '
+    prices = db.execute(
+        ' SELECT printf("%.2f", price) AS price '
         ' FROM product '
     ).fetchall()
 
     if inventory_value is None:
         flash('Error retrieving inventory value.')
-    
+
+    else:
+        for item in prices:
+            inventory_value = inventory_value + Decimal(item[0])
+
     return inventory_value
 
 
@@ -53,8 +51,7 @@ def index():
         ' ORDER BY added ASC'
     ).fetchall()
     inventory_val = get_value()
-    print(inventory_val)
-    return render_template('inventory/index.html', products = products)
+    return render_template('inventory/index.html', products = products, inventory_val=inventory_val)
 
 
 @bp.route('/add', methods=('GET', 'POST'))

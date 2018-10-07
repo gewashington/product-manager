@@ -3,7 +3,7 @@
 {% block header %}
   <h1>{% block title %}Products{% endblock %}</h1>
   <a class="action" href="{{ url_for('inventory.add') }}">Add Product</a>
-  Total Inventory Value
+  Total Inventory Value: {{inventory_val}}
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
             <th scope="col">ID</th>
             <th scope="col">Name</th> 
             <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
+            <th scope="col">Price Per Item</th>
             <th scope="col">Update Product</th>
             <th scope="col">Delete Product</th>
         </tr>
