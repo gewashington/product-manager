@@ -85,7 +85,7 @@ def handleProduct(id=[]):
             if error is not None:
                 flash(error)
 
-            if not id:
+            if not id and not error:
                 db=get_db()
                 db.execute(
                     'INSERT INTO product (productName, quantity, price)'
@@ -94,7 +94,7 @@ def handleProduct(id=[]):
                 db.commit()
                 return redirect(url_for('inventory.index'))
 
-            else:
+            elif id and not error:
                 db=get_db()
                 db.execute(
                     'UPDATE product SET productName = ?, quantity = ?, price = ?'
