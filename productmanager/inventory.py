@@ -57,7 +57,7 @@ def index():
 
 @bp.route('/add', methods=('GET', 'POST'))
 @bp.route('/<int:id>/update', methods=('GET','POST'))
-def add(id=[]):
+def handleProduct(id=[]):
     # Combine Add and Update. If there is a product ID, route it to update
     #else, route it to add
     formTitle = 'Add Product'
@@ -108,7 +108,7 @@ def add(id=[]):
         elif request.form['button'] == 'Back':
             return redirect(url_for('inventory.index'))
 
-    return render_template('inventory/update.html', product=product, formTitle=formTitle)
+    return render_template('inventory/productform.html', product=product, formTitle=formTitle)
 
 @bp.route('/<int:id>/delete', methods=('GET', 'POST',))
 def delete(id):
