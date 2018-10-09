@@ -1,4 +1,3 @@
-
 {% macro productform(
     formTitle,
     product=product
@@ -9,16 +8,18 @@
     <h1>{{ formTitle }}</h1>
     <form method="post">
         <div class="form-group">
+            {{ product }}
+            {{ product['productName'] }}
             <label for="productName">Product Name:</label>
-            <input name="productName" class="form-control" id="productName" value="{{ product[productName] or request.form['productName'] }}" required>
+            <input name="productName" class="form-control" id="productName" value="{{ product['productName'] }}">
         </div>
         <div class="form-group">
             <label for="quantity">Quantity:</label>
-            <input name="quantity" type="number" id="quantity" class="form-control" value="{{ product[quantity] or request.form['quantity'] }}" required>
+            <input name="quantity" type="number" id="quantity" class="form-control" value="{{ product[quantity] or request.form['quantity'] }}">
         </div>
         <div class="form-group">
             <label for="price">Price:</label>
-            <input name="price" type="number" id="price" class="form-control" value="{{ product[price] or request.form['price'] }}" required>
+            <input name="price" type="number" id="price" class="form-control" value="{{ product[price] or request.form['price'] }}">
         </div>
         <input type="submit" class="btn btn-primary" name="button" value="Save" >
         <input type="submit" class="btn btn-primary" name="button" value="Back" >

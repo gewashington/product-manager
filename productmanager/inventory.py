@@ -6,7 +6,7 @@ from decimal import Decimal
 
 from productmanager.db import get_db
 from productmanager.data import Products
-
+#import pdb; pdb.set_trace()
 bp = Blueprint('inventory', __name__)
 Products = Products()
 
@@ -20,7 +20,7 @@ def get_product(id):
 
     if product is None:
         flash('Product does not exist. Please try again.')
-    
+    #Turn product to dictionary
     return product
 
 
@@ -56,6 +56,8 @@ def index():
 
 @bp.route('/add', methods=('GET', 'POST'))
 def add():
+    # Combine Add and Update. If there is a product ID, route it to update
+    #else, route it to add
     if request.method == 'POST':
         if request.form['button'] == 'Save':
             productName = request.form['productName']
@@ -118,7 +120,7 @@ def update(id):
             )
             db.commit()
             return redirect(url_for('inventory.index'))
-    return render_template('inventory/update.html', product=product)
+    return render_template('inventory/update.html', product=dict(product))
 
 @bp.route('/<int:id>/delete', methods=('GET', 'POST',))
 def delete(id):
