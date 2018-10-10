@@ -2,34 +2,37 @@
 
 {% block header %}
   <h1>{% block title %}Products{% endblock %}</h1>
-  <a class="action" href="{{ url_for('inventory.handleProduct') }}">Add Product</a>
-  Total Inventory Value: {{inventory_val}}
-{% endblock %}
-
-{% block content %}
-<table class= "table table-hover" style="width: 80%;">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th> 
-            <th scope="col">Quantity</th>
-            <th scope="col">Price Per Item</th>
-            <th scope="col">Update Product</th>
-            <th scope="col">Delete Product</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for product in products %}
-            <tr>
-            <th scope="row">{{product.id}}</th>
-                <td>{{product.productName}}</td>
-                <td>{{product.quantity}}</td>
-                <td>{{product.price}}</td>
-                <td><a class="action" href="{{ url_for('inventory.handleProduct', id=product.id) }}">Click</a>
-                <td><a class="action" href="{{ url_for('inventory.delete', id=product.id) }}">Click</a>
-            </tr>
-        {% endfor %}
-    </tbody>
-  </table>
-
-{% endblock %}
+  {% endblock %}
+  
+  {% block content %}
+  <div style="display: flex; flex-direction: column; position:relative; align-items: center;">
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <a class="action" href="{{ url_for('inventory.handleProduct') }}">Add Product</a>
+            <span style="right: auto;">Total Inventory Value: {{inventory_val}}</span>
+        </div>
+        <table class= "table table-striped" style="width: 80%;">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th> 
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price Per Item</th>
+                        <th scope="col">Update Product</th>
+                        <th scope="col">Delete Product</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for product in products %}
+                    <tr>
+                        <th scope="row">{{product.id}}</th>
+                        <td>{{product.productName}}</td>
+                        <td>{{product.quantity}}</td>
+                        <td>{{product.price}}</td>
+                        <td><a class="action" href="{{ url_for('inventory.handleProduct', id=product.id) }}">Click</a>
+                            <td><a class="action" href="{{ url_for('inventory.delete', id=product.id) }}">Click</a>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>      
+                </div>
+                    {% endblock %}
